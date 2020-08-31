@@ -1,2 +1,2 @@
 # my_docs
-Learning documents
+This Repo is to write all my learnings

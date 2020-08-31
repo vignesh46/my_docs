@@ -14,8 +14,8 @@ Coach baseballCoach = context.getBean("baseballCoach", Coach.class);`
 
 ## Dependency Injection
 - **Constructor Injection**
-`
-<bean id = "fortune" class = "com.srv.springdemo.HappyFortumeService"/>
+
+`<bean id = "fortune" class = "com.srv.springdemo.HappyFortumeService"/>
 <bean id = "baseballCoach" class = "com.srv.springdemo.BaseballCoach">
 	<constructor-arg ref="fortune"/>
 </bean>`
@@ -29,7 +29,7 @@ Coach baseballCoach = context.getBean("baseballCoach", Coach.class);`
 <property name="email" value="cricket@abc.com"></property>
 </bean>`
 
-##Load property file in applicationContext.xml and use it
+## Load property file in applicationContext.xml and use it
 
 `<context:property-placeholder location="classpath:sport.properties"/>
 
@@ -40,7 +40,7 @@ Coach baseballCoach = context.getBean("baseballCoach", Coach.class);`
 </bean>`
 
 
-##Bean Scopes:
+## Bean Scopes:
 
 - Singleton (Default scope)
 - Prototype
@@ -54,7 +54,7 @@ Coach baseballCoach = context.getBean("baseballCoach", Coach.class);`
 - session
 - global-session
 
-##Custom methods when Bean initialize and destory:
+## Custom methods when Bean initialize and destory:
 
 `<bean id = "baseballCoach" class = "com.srv.springdemo.BaseballCoach" init-method="doMystartupStuff" destroy-method="doMyCleanupStuff"/>`
 

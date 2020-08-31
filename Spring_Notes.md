@@ -7,7 +7,7 @@ Spring Container = Application context
 
 Spring Bean = simple java object
 
-Code to load the **applicationContext.xml** and access the bean
+## Code to load the applicationContext.xml and access the bean
 
 ```java
 ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");

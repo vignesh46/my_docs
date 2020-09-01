@@ -2,7 +2,20 @@
 ## IOC - Inversion Of Control
 Insted of creating objects manually by giving "new", Making it as configurable.
 
-	
+## DI - Dependency Injection
+**product** object depned on **feature** object.
+
+**feature** dependency will be injected insted of creating object with **new** keyword inside **product** object.
+```json
+{
+	"product":{
+		"productId" : 123,
+		"feature" : {
+			"Desc" : "easy to maintain"
+		}
+	}
+}
+```
 Spring Container = Application context
 
 Spring Bean = simple java object
@@ -78,4 +91,26 @@ Coach baseballCoach = context.getBean("baseballCoach", Coach.class);
 - The method can have any return type. However, "void' is most commonly used. If you give a return type just note that you will not be able to capture the return value. As a result, "void" is commonly used.
 - The method can not accept any arguments. The method should be no-arg.
 - For "prototype" scoped beans, Spring does not call the destroy method
+
+## Annotation :
+Below line will scan all the annotations inside the "com.srv.springdemo" package.
+```xml
+<context:component-scan base-package="com.srv.springdemo"></context:component-scan>
+```
+```java
+@Component("theTennisCoach") on top of class
+Coach tennisCoach = context.getBean("theTennisCoach", Coach.class);
+```
+If bean Id not given, then spring will use class name as bean id by lowering the first character of the class eg. tennisCoach.
+
+## Autowiring Injection Types :
+- Constructor Injection
+```java
+@Autowired
+public TennisCoach(FortuneService fortuneService) {
+	this.fortuneService = fortuneService;
+}
+```
+- Setter Injection
+- Field Injection
 

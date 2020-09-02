@@ -98,10 +98,14 @@ Below line will scan all the annotations inside the "com.srv.springdemo" package
 <context:component-scan base-package="com.srv.springdemo"></context:component-scan>
 ```
 ```java
-@Component("theTennisCoach") on top of class
+@Component("theTennisCoach") //on top of class
 Coach tennisCoach = context.getBean("theTennisCoach", Coach.class);
 ```
 If bean Id not given, then spring will use class name as bean id by lowering the first character of the class eg. tennisCoach.
+
+special case of when BOTH the first and second characters of the class name are upper case, then the name is NOT converted.
+
+In this case give bean name in component param and use it
 
 ## Autowiring Injection Types :
 - Constructor Injection
@@ -112,5 +116,105 @@ public TennisCoach(FortuneService fortuneService) {
 }
 ```
 - Setter Injection
+```java
+@Autowired
+public void setFortuneService(FortuneService fortuneService) {
+	System.out.println("CricketCoach : Inside setFortuneService()");
+	this.fortuneService = fortuneService;
+}
+
+//Not only setter, method can have any names
+@Autowired
+public void anyMethod(FortuneService fortuneService) {
+	System.out.println("CricketCoach : Inside anyMethod()");
+	this.fortuneService = fortuneService;
+}
+```
 - Field Injection
+
+Spring achieve this by using Java Reflection
+```java
+@Autowired
+private FortuneService fortuneService;
+```
+
+## Qualifier :
+What if Interface has multiple implementations
+```console
+Caused by: org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'com.srv.springdemo.FortuneService' available: expected single matching bean but found 2: happyFortuneService,randomFortuneService
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveNotUnique(DependencyDescriptor.java:220)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1285)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1227)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+	... 15 more
+```
+```java
+//Field
+@Autowired
+@Qualifier("randomFortuneService")
+private FortuneService fortuneService;
+
+//setter
+@Autowired
+@Qualifier("randomFortuneService")
+public void setFortuneService(FortuneService fortuneService) {
+	System.out.println("CricketCoach : Inside setFortuneService()");
+	this.fortuneService = fortuneService;
+}
+
+//Constructor
+//NOTE: here you have to give it inside constructor param
+@Autowired
+public TennisCoach(@Qualifier("happyFortuneService") FortuneService fortuneService) {
+	this.fortuneService = fortuneService;
+}
+```
+
+## Inject properties file using Java annotations
+Configure properties file
+
+```java
+@Value("${email}")
+private String coachEmail;
+```
+## Scopes using Annotation :
+```java
+//Example
+@Scope("prototype")
+```
+## Bean lifecycle methods using Annotation :
+NOTE: For below stuffs we require javax-annotation-api jar
+
+- Init method : **@PostConstruct**
+
+Executed after construct and injecting beans
+
+```java
+@PostConstruct
+public void doMyStartUpStuff() {		
+	System.out.println("doMyStartUpStuff Method");		
+}
+```
+
+- Destroy Method : **@PreDestroy**
+
+Executed before destroying bean
+
+```java
+@PreDestroy
+public void doMyCleanUpStuff() {
+	System.out.println("doMyCleanUpStuff Method");
+}
+```
+
+## Java config :
+```java
+@Configuration
+@ComponentScan("com.srv.springdemo")//Optional
+public class JavaConfig {
+
+}
+
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
+```
 

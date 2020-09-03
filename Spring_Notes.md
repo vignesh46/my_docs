@@ -217,4 +217,27 @@ public class JavaConfig {
 
 AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(JavaConfig.class);
 ```
+## Manual Bean Declaration :
+```java
+@Bean
+public FortuneService sadFortSev() {
+	return new SadFortuneService();
+}
 
+@Bean
+public Coach swimCoach() {
+	return new SwimCoach(sadFortSev());
+}
+	
+//Bean name will be method name
+Coach tennisCoach = context.getBean("swimCoach", Coach.class);
+```
+## Property Injection :
+```java
+//On top of Java Config file
+@PropertySource("classpath:sport.properties")
+
+//In Class on top of field
+@Value("${email}")
+private String email;
+```

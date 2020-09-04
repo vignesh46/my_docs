@@ -241,3 +241,25 @@ Coach tennisCoach = context.getBean("swimCoach", Coach.class);
 @Value("${email}")
 private String email;
 ```
+## Spring MVC :
+						MODEL		MODEL
+WebBrowser -> Front Controller(Dispatcher Servlet) -> Controller -> View Template
+
+**@controller** inherited from **@component**
+
+**Sample MVC Controller :**
+```java
+@RequestMapping("/")
+public String showPage() {
+	
+	/**
+	 * this will construct /WEB-INF/view/main-menu.jsp
+	 * Since we configured prefix and suffix in spring-mvc-demo-servlet
+	 */
+	return "main-menu";
+}
+```
+
+
+
+

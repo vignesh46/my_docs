@@ -259,7 +259,18 @@ public String showPage() {
 	return "main-menu";
 }
 ```
+## Model:
+```java
+@RequestMapping("/processform2")
+public String modelExample(HttpServletRequest request, Model model) {
+	String name = request.getParameter("studentName");
+	model.addAttribute("message", name.toUpperCase());
+	return "helloworld";
+}
+```
 
+## To access message in JSP :
+Message : ${message}
 
 
 

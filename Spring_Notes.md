@@ -1,11 +1,11 @@
 # SPRING NOTES
 ## IOC - Inversion Of Control
-Insted of creating objects manually by giving "new", Making it as configurable.
+Instead of creating objects manually by giving "new", Making it as configurable.
 
 ## DI - Dependency Injection
-**product** object depned on **feature** object.
+**product** object depend on **feature** object.
 
-**feature** dependency will be injected insted of creating object with **new** keyword inside **product** object.
+**feature** dependency will be injected instead of creating object with **new** keyword inside **product** object.
 ```json
 {
 	"product":{

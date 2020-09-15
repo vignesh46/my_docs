@@ -47,3 +47,72 @@ Session session = factory.getCurrentSession();
 
 **@Column(name = "id")** - Map field to a specified column
 
+## Working with Data sample
+```java
+@Column(name="date_of_birth")
+@Temporal(TemporalType.DATE)
+private Date dateOfBirth;
+```
+
+## To save
+```java
+session.save(student1);
+```
+
+## Fetch Data
+```java
+//Fetch using Id
+Student result = session.get(Student.class, student1.getId());
+//Fetch all records using Query
+List<Student> students = session.createQuery("from Student").getResultList();
+//Fetch records using Query with filter conditions
+List<Student> students = session.createQuery("from Student where lastName='Amal'").getResultList();
+```
+
+## Update
+```java
+//Update using ID
+session.beginTransaction();
+Student result = session.get(Student.class, sId);
+result.setLastName("Prasanth");
+session.getTransaction().commit();
+
+//Update using Query
+session.beginTransaction();
+session.createQuery("update Student set email='test@gmail.com'").executeUpdate();
+session.getTransaction().commit();
+```
+
+## Delete:
+```java
+//Delete using object
+session.delete(result);
+
+//Delete using Query
+session.beginTransaction();
+session.createQuery("delete from Student where id='5'").executeUpdate();
+session.getTransaction().commit();
+```
+## Cascade
+Apply same operation to related entities. save/Delete one table will reflect in their linked tables.
+
+## Eager
+will retrieve related entities too
+
+## Lazy
+Will retrieve related entities on request
+
+## UniDirectional
+Retrieve from one direction.
+
+Car -> CarDetails
+
+## BiDirectional
+Retrieve from both directions.
+
+Car -> CarDetails
+
+Car <- CarDetails
+
+
+

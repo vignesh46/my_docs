@@ -71,4 +71,23 @@ public class TextBetweenWordsExtractor {
     }
 }
 
+
+
+
+
+
+
+
+
+
+private static String extractTextBetweenWords(String text, String startWord, String endWord) {
+        int startIndex = text.indexOf(startWord);
+        int endIndex = text.indexOf(endWord);
+        if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+            return text.substring(startIndex + startWord.length(), endIndex).trim();
+        } else {
+            return "";
+        }
+    }
+
 ```

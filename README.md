@@ -34,7 +34,7 @@ public class TextBetweenWordsExtractor {
             }
         }
 
-        // 3. Write all extracted text to a single output file
+        // 3. Concatenate all extracted text and write it to a single output file
         writeTextToFile(outputFilePath, extractedTexts);
     }
 
@@ -61,17 +61,14 @@ public class TextBetweenWordsExtractor {
     }
 
     private static void writeTextToFile(String filePath, List<String> textList) {
+        String concatenatedText = String.join("\n", textList);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (String extractedText : textList) {
-                writer.write(extractedText);
-                writer.newLine();
-            }
+            writer.write(concatenatedText);
             System.out.println("Text file created successfully: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
-
 
 ```

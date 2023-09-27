@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class TextBetweenWordsExtractor {
+public class TextFromEachLineExtractor {
     public static void main(String[] args) {
         String inputFolderPath = "path_to_input_folder";
         String outputFilePath = "path_to_output_file.txt";
@@ -22,11 +22,15 @@ public class TextBetweenWordsExtractor {
                 if (file.isFile() && file.getName().endsWith(".txt")) {
                     try {
                         // Read the text from the file
-                        String text = readFile(file);
+                        List<String> lines = readLinesFromFile(file);
 
-                        // 2. Extract text between startWord and endWord
-                        String extractedText = extractTextBetweenWords(text, startWord, endWord);
-                        extractedTexts.add(extractedText);
+                        // 2. Extract text from each line based on startWord and endWord
+                        for (String line : lines) {
+                            String extractedText = extractTextFromLine(line, startWord, endWord);
+                            if (!extractedText.isEmpty()) {
+                                extractedTexts.add(extractedText);
+                            }
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -34,30 +38,30 @@ public class TextBetweenWordsExtractor {
             }
         }
 
-        // 3. Concatenate all extracted text and write it to a single output file
+        // 3. Write all extracted text to a single output file
         writeTextToFile(outputFilePath, extractedTexts);
     }
 
-    private static String extractTextBetweenWords(String text, String startWord, String endWord) {
+    private static List<String> readLinesFromFile(File file) throws IOException {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        }
+        return lines;
+    }
+
+    private static String extractTextFromLine(String line, String startWord, String endWord) {
         String pattern = Pattern.quote(startWord) + "(.*?)" + Pattern.quote(endWord);
-        Pattern regex = Pattern.compile(pattern, Pattern.DOTALL);
-        Matcher matcher = regex.matcher(text);
+        Pattern regex = Pattern.compile(pattern);
+        Matcher matcher = regex.matcher(line);
         if (matcher.find()) {
             return matcher.group(1).trim();
         } else {
             return "";
         }
-    }
-
-    private static String readFile(File file) throws IOException {
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-        }
-        return content.toString();
     }
 
     private static void writeTextToFile(String filePath, List<String> textList) {
@@ -70,24 +74,4 @@ public class TextBetweenWordsExtractor {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-private static String extractTextBetweenWords(String text, String startWord, String endWord) {
-        int startIndex = text.indexOf(startWord);
-        int endIndex = text.indexOf(endWord);
-        if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
-            return text.substring(startIndex + startWord.length(), endIndex).trim();
-        } else {
-            return "";
-        }
-    }
-
 ```

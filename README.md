@@ -168,4 +168,26 @@ public class TextToFileConverter {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+private static String extractTextBetweenWords(String text, String startWord, String endWord) {
+        String pattern = Pattern.quote(startWord) + "(.*?)" + Pattern.quote(endWord);
+        Pattern regex = Pattern.compile(pattern, Pattern.DOTALL);
+        Matcher matcher = regex.matcher(text);
+        if (matcher.find()) {
+            return matcher.group(1).trim();
+        } else {
+            return "";
+        }
+    }
 ```
